@@ -39,7 +39,7 @@ if(isset($_GET['id']))
 		}
 	}
 
-	$view = $conn->query("SELECT * FROM forum_views WHERE topic_id=$id")->num_rows;
+	// $view = $conn->query("SELECT * FROM forum_views WHERE topic_id=$id")->num_rows;
 	$tags = array();	
 
 	if(!empty($category_ids))

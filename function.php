@@ -82,6 +82,10 @@ Class Action {
 		}else{
 			$save = $this->db->query("UPDATE users SET ".$data." WHERE id = ".$id);
 			if($save){
+				if($id == $_SESSION['login_id']){
+					$_SESSION['login_username'] = $username;
+					$_SESSION['login_email'] = $email;
+				}
 				return 2;
 			}
 		}

@@ -1,3 +1,58 @@
+    <!-- Edit profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="editProfileModal">Manager profile</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <!-- Body -->
+                        <div class="modal-body">
+                            <!-- Tab Content -->
+                            <div class="tab-content" id="editUserModalTabContent">
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <form id="update-profile" action="">
+                                        <!-- Form -->
+                                        <div class="row mb-4">
+                                            <label for="editUsernameModalLabel" class="col-sm-3 col-form-label form-label">Username</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-sm-vertical">
+                                                    <input type="text" class="form-control" name="username" id="editProfileUsernameModalLabel" placeholder="Your Username" aria-label="Your Username" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Form -->
+
+                                        <!-- Form -->
+                                        <div class="row mb-4">
+                                            <label for="editEmailModalLabel" class="col-sm-3 col-form-label form-label">Email</label>
+                                            <div class="col-sm-9">
+                                                <input type="email" class="form-control" name="email" id="editProfileEmailModalLabel" placeholder="Email" aria-label="Email" value="">
+                                            </div>
+                                        </div>
+                                        <!-- End Form -->
+
+                                        <input type="hidden" name="id" id="profile_id" value="">
+
+                                        <div class="d-flex justify-content-end">
+                                            <div class="d-flex gap-3">
+                                                <button type="button" class="btn btn-white" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Tab Content -->
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Edit profile -->
+    
     <!-- JS Global Compulsory  -->
     <script src="./assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="./assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
@@ -285,6 +340,42 @@
             setActiveStyle()
             })
         })()
+    </script>
+
+    <script>
+        $(document).on('click', '#openProfileModalButton', function(e) {
+            $("#editProfileUsernameModalLabel").val($(this).attr("data-username"));
+            $("#editProfileEmailModalLabel").val($(this).attr("data-email"));
+            $("#profile_id").val($(this).attr("data-id"));
+        });
+
+        $('#update-profile').submit(function(e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Send AJAX request
+            $.ajax({
+                url: 'ajax.php?action=save_user',
+                method:'POST',
+                data:$(this).serialize(),
+                success:function(response) {
+                    function showMessage(message, isSuccess) {
+                        const status = isSuccess ? 'success' : 'danger';
+                        $('#alert-msg').html(`<div class="alert alert-${status}">${message}</div>`);
+                        $('#alert-msg').delay(2000).fadeOut('slow');
+                        setTimeout(() => location.reload(), 2000);
+                    }
+
+                    if (response == 1) {
+                        showMessage('Created successfully!', true);
+                    } else if (response == 2) {
+                        showMessage('Updated successfully!', true);
+                    } else {
+                        showMessage('Username already exists', false);
+                    }
+                }
+            });
+        });
     </script>
 
     <!-- End Style Switcher JS -->

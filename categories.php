@@ -214,7 +214,7 @@
 									</div>
 									<!-- End Form -->
 
-									<input type="hidden" name="id" value="">
+									<input type="hidden" name="id" id="id" value="">
 
 									<div class="d-flex justify-content-end">
 										<div class="d-flex gap-3">
@@ -295,9 +295,9 @@
 <script>
 $(document).ready(function() {
 	$(document).on('click', '#openEditModalButton', function(e) {
-		$("input[name='name']").val($(this).attr("data-name"));
-		$("textarea[name='description']").val($(this).attr("data-description"));
-		$("input[name='id']").val($(this).attr("data-id"));
+		$("#editCategoryNameModalLabel").val($(this).attr("data-name"));
+		$("#editDescriptionModalLabel").val($(this).attr("data-description"));
+		$("#id").val($(this).attr("data-id"));
 	});
 
 	$('.delete_category').click(function(){

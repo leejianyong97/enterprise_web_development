@@ -188,7 +188,11 @@
                   </div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Profile &amp; account</a>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal" id="openProfileModalButton" 
+                    data-id="<?= $_SESSION['login_id'] ?>"
+                    data-username="<?= $_SESSION['login_username'] ?>"
+                    data-email="<?= $_SESSION['login_email'] ?>"
+                    >Profile &amp; account</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="ajax.php?action=logout">Sign out</a>
               </div>
@@ -235,12 +239,25 @@
             <small class="bi-three-dots nav-subtitle-replacer"></small>
 
             <?php
-              $links = array(
-                array('/cw_ewsd5/index.php', 'Dashboards', 'bi-house-door'),
-                array('/cw_ewsd5/users.php', 'Users', 'bi-person'),
-                array('/cw_ewsd5/categories.php', 'Category & Tags', 'bi-folder2-open'),
-                array('/cw_ewsd5/topics.php', 'Discussion', 'bi-receipt')
-              );
+              // $links = array(
+              //   array('/cw_ewsd5/index.php', 'Dashboards', 'bi-house-door'),
+              //   array('/cw_ewsd5/categories.php', 'Category & Tags', 'bi-folder2-open'),
+              //   array('/cw_ewsd5/topics.php', 'Discussion', 'bi-receipt')
+              // );
+
+              // if (!isset($_SESSION['type']) || $_SESSION['type'] !== 1) {
+              //   array_push($links, array('/cw_ewsd5/users.php', 'Users', 'bi-person'));
+              // }
+              $links = [
+                ['/cw_ewsd5/index.php', 'Dashboards', 'bi-house-door'],
+                ['/cw_ewsd5/categories.php', 'Category & Tags', 'bi-folder2-open'],
+                ['/cw_ewsd5/topics.php', 'Discussion', 'bi-receipt']
+              ];
+              
+              if (isset($_SESSION['login_type']) && $_SESSION['login_type'] == "1") {
+                $links[] = ['/cw_ewsd5/users.php', 'Users', 'bi-person'];
+              }
+              
               foreach ($links as $link) {
             ?>
                 <div class="nav-item">
@@ -252,35 +269,6 @@
             <?php
               }
             ?>
-
-            <!-- <div class="nav-item">
-              <a class="nav-link mt-2 active" href="./index.php" data-placement="left">
-                <i class="bi-house-door nav-icon"></i>
-                <span class="nav-link-title">Dashboards</span>
-              </a>
-            </div>
-
-            <div class="nav-item">
-              <a class="nav-link mt-2 " href="./users.php" data-placement="left">
-                <i class="bi-person nav-icon"></i>
-                <span class="nav-link-title">Users</span>
-              </a>
-            </div>
-
-            <div class="nav-item">
-              <a class="nav-link mt-2 " href="./categories.php" data-placement="left">
-                <i class="bi-folder2-open nav-icon"></i>
-                <span class="nav-link-title">Category & Tags</span>
-              </a>
-            </div>
-
-            <div class="nav-item">
-              <a class="nav-link mt-2 " href="./topics.php" data-placement="left">
-                <i class="bi-receipt nav-icon"></i>
-                <span class="nav-link-title">Discussion</span>
-              </a>
-            </div> -->
-
           </div>
         </div>
         <!-- End Content -->
@@ -319,5 +307,4 @@
       </div>
     </div>
   </aside>
-
-  <!-- End Navbar Vertical -->
+<!-- End Navbar Vertical -->

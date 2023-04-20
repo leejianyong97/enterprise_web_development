@@ -1,5 +1,9 @@
 <?php 
 	include('./header.php'); 
+	if (!isset($_SESSION['login_type']) || $_SESSION['login_type'] !== "1") {
+		echo "<script>window.location.href = 'index.php';</script>";
+		exit();
+	}
 ?>
 
 <main id="content" role="main" class="main">
@@ -252,7 +256,7 @@
 										<div class="col-sm-9">
 											<!-- Select -->
 											<div class="tom-select-custom mb-4">
-												<select class="form-select" id="editRoleModalLabel" name="type" autocomplete="off" data-hs-tom-select-options='{
+												<select class="js-select form-select" id="editRoleModalLabel" name="type" autocomplete="off" data-hs-tom-select-options='{
 														"placeholder": "Select Role"
 														}'>
 													<option value="7">Staff</option>
@@ -269,7 +273,7 @@
 									</div>
 									<!-- End Form -->
 
-									<input type="hidden" name="id" value="">
+									<input type="hidden" name="id" id="id" value="">
 
 									<div class="d-flex justify-content-end">
 										<div class="d-flex gap-3">
@@ -339,7 +343,7 @@
 										<div class="col-sm-9">
 											<!-- Select -->
 											<div class="tom-select-custom mb-4">
-												<select class="form-select" id="createRoleModalLabel" name="type" autocomplete="off" data-hs-tom-select-options='{
+												<select class="js-select form-select" id="createRoleModalLabel" name="type" autocomplete="off" data-hs-tom-select-options='{
 														"placeholder": "Select Role"
 														}'>
 													<option value="7">Staff</option>
@@ -382,10 +386,14 @@
 <script>
 $(document).ready(function() {
 	$(document).on('click', '#openEditModalButton', function(e) {
-		$("input[name='username']").val($(this).attr("data-username"));
-		$("input[name='email']").val($(this).attr("data-email"));
-		$("input[name='id']").val($(this).attr("data-id"));
-		$('#editRoleModalLabel').val($(this).attr("data-type"));
+		const type = $(this).attr("data-type");
+		
+		$("#editUsernameModalLabel").val($(this).attr("data-username"));
+		$("#editEmailModalLabel").val($(this).attr("data-email"));
+		$("#id").val($(this).attr("data-id"));
+		$('#editRoleModalLabel').val(type);
+        $(`#editRoleModalLabel option[value="${type}"]`).attr('selected', 'selected');
+        document.getElementById('editRoleModalLabel').tomselect.addItem(type);
 	});
 
 	$('.delete_user').click(function(){

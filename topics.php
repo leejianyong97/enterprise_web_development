@@ -86,7 +86,7 @@
 					unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
 					$desc = strtr(html_entity_decode($row['content']),$trans);
 					$desc=str_replace(array("<li>","</li>"), array("",","), $desc);
-					$view = $conn->query("SELECT * FROM forum_views where topic_id=".$row['id'])->num_rows;
+					// $view = $conn->query("SELECT * FROM forum_views where topic_id=".$row['id'])->num_rows;
 					$comments = $conn->query("SELECT * FROM comments where topic_id=".$row['id'])->num_rows;
 					$replies = $conn->query("SELECT * FROM replies where comment_id in (SELECT id FROM comments where topic_id=".$row['id'].")")->num_rows;
 			?>
@@ -160,7 +160,7 @@
 
                         <div class="col-sm-12">
                           <div class="d-flex">
-							<div class="h5" style="margin-bottom: 0"><span class="badge bg-secondary rounded-pill"><?= number_format($view) ?> View/s</span></div>
+							<!-- <div class="h5" style="margin-bottom: 0"><span class="badge bg-secondary rounded-pill"><?= number_format($view) ?> View/s</span></div> -->
 							<!-- <div class="h5" style="margin-bottom: 0; margin-left: 3px"><span class="badge bg-primary rounded-pill"><a href="view_forum.php?id=<?= $row['id']; ?>" style="color: rgba(var(--bs-white-rgb),var(--bs-text-opacity))!important;"><?= number_format($comments) ?> Comments <?= $replies > 0 ? " and ".number_format($replies).' Replies':'' ?></a></span></div> -->
 							<div class="h5" style="margin-bottom: 0; margin-left: 3px"><span class="badge bg-primary rounded-pill"><a href="view_forum.php?id=<?= $row['id']; ?>" style="color: rgba(var(--bs-white-rgb),var(--bs-text-opacity))!important;"><?= number_format($comments) ?> Comments</a></span></div>
 							<div class="h5" style="margin-bottom: 0; margin-left: 3px"><span class="badge bg-primary rounded-pill">
@@ -247,11 +247,11 @@
 
 									<!-- Form -->
 									<div class="row mb-4">
-										<label for="createCategoriesModal" class="col-sm-3 col-form-label form-label">Category</label>
+										<label for="categoriesModal" class="col-sm-3 col-form-label form-label">Category</label>
 										<div class="col-sm-9">
 											<!-- Select -->
 											<div class="tom-select-custom mb-4">
-												<select class="js-select form-select" id="createCategoriesModal" name="category_ids" autocomplete="off" data-hs-tom-select-options='{
+												<select class="js-select form-select" id="categoriesModal" name="category_ids" autocomplete="off" data-hs-tom-select-options='{
 														"placeholder": "Select Category"
 														}'>
 													<?php 
@@ -327,13 +327,18 @@
 	
 	$(document).on('click', '#openCreateModalButton', function(e) {
 		$("input[name='title']").val("");
+		$('#categoriesModal').val("");
 		$('#content-description').children().first().html("");
 		$("input[name='id']").val("");
 	});
 
 	$(document).on('click', '#openEditModalButton', function(e) {
+		const category = $(this).attr("data-category_ids");
+
 		$("input[name='title']").val($(this).attr("data-title"));
-		$('#createCategoriesModal').val($(this).attr("data-category_ids"));
+		$('#categoriesModal').val(category);
+        $(`#categoriesModal option[value="${category}"]`).attr('selected', 'selected');
+        document.getElementById('categoriesModal').tomselect.addItem(category);
 		$('#content-description').children().first().html($(this).attr("data-content"));
 		$("input[name='id']").val($(this).attr("data-id"));
 	});
