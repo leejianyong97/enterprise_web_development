@@ -24,7 +24,6 @@
 				<h1 class="page-header-title">Users</h1>
 			</div>
 			<!-- End Col -->
-
 			<div class="col-sm-auto">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
 					<i class="bi-person-plus-fill me-1"></i> Add user
@@ -352,7 +351,7 @@
 													<option value="4">QACoordinator (Human Resources)</option>
 													<option value="3">QACoordinator (Purchasing)</option>
 													<option value="2">QACoordinator (Marketing)</option>
-													<option value="1">QAManager</option>
+													<option value="1">Admin</option>
 												</select>
 											</div>
 											<!-- End Select -->
